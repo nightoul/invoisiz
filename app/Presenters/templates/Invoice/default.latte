@@ -1,0 +1,40 @@
+{block content}
+<h2>Invoices</h2>
+
+<a n:if="$presenter->hasPermission('invoices_add')" n:href="Invoice:edit" type="button" n:class="!$presenter->clients ? disabled : '', btn, btn-primary">
+    Add invoice
+</a>
+
+<div class="row">
+    <div class="col">
+        <table n:if="!empty($invoices)" class="table table-responsive table-hover">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Client</th>
+                    <th>Issue date</th>
+                    <th>Due date</th>
+                    <th>Action</th>
+                </tr>
+                <tr n:foreach="$invoices AS $invoice">
+                    <td>{$invoice->title}</td>
+                    <td>{$invoice->client_id}</td>
+                    <td>{$invoice->issue_date->format('d. m. Y')}</td>
+                    <td>{$invoice->due_date->format('d. m. Y')}</td>
+                    <td>
+                        <a n:href="downloadInvoice!, id => $invoice->id" class="btn btn-primary"><i class="bi bi-download"></i></a>
+                        <a n:if="$presenter->hasPermission('invoices_edit')" n:href="Invoice:edit, id => $invoice->id" class="btn btn-primary">Edit</a>
+                        <a n:if="$presenter->hasPermission('invoices_delete')" n:href="deleteInvoice!, $invoice->id" class="btn btn-danger" data-confirm-box>Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p n:if="empty($invoices)">
+            No invoices found.
+        </p>
+    </div>
+</div>
+
+<script>
+
+</script>

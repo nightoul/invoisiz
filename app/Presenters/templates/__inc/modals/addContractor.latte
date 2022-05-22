@@ -1,0 +1,55 @@
+<div class="modal fade" id="addContractor" data-bs-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add contractor</h5>
+			</div>
+			<div class="modal-body">
+				{form contractorForm}
+					<div class="col">
+						<div class="form-group">
+							{label first_name /}
+							{input first_name, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label last_name /}
+							{input last_name, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label ico /}
+							{input ico, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label email /}
+							{input email, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label bank_account /}
+							{input bank_account, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label street /}
+							{input street, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label zip_code /}
+							{input zip_code, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label town /}
+							{input town, class => "form-control"}
+						</div>
+						<div class="form-group">
+							{label permission_presets /}
+							{input permission_presets, class => "form-control"}
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					{input submit, class => 'btn btn-success'}
+				</div>
+				{/form}
+		</div>
+	</div>
+</div>

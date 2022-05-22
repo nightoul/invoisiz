@@ -1,0 +1,35 @@
+body {
+    background-color: #ddd
+}
+
+.nav-link:hover {
+    background-color: #525252 !important
+}
+
+.nav-link .fa {
+    transition: all 1s
+}
+
+.nav-link:hover .fa {
+    transform: rotate(360deg)
+}
+
+/* permissions */
+.section-header {
+    background-color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    padding: 8px 50px 8px 6px;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.section-item {
+    padding: 5px 50px 5px 5px;
+}
+
+/* email input field ajax-editable */
+.ajax-editable {
+    border: none;
+    outline: none;
+    background: inherit;
+}

@@ -1,0 +1,51 @@
+{block content}
+
+<a n:if="$presenter->hasPermission('invoices_list')" n:href="Invoice:" class="btn btn-primary">Back</a>
+
+<h3>{ifset $invoice}Invoice detail{else}Add invoice{/ifset}</h3>
+
+<div>
+    {form invoiceForm}
+        <div class="form-group">
+            {label title /}
+            {input title, class => "form-control w-50"}
+        </div>
+        <div class="form-group">
+            {label client /}
+            {input client, class => "form-control w-50"}
+        </div>
+        <div class="form-group">
+            {label issue_date /}
+            {input issue_date, class => "form-control w-50"}
+        </div>
+        <div class="form-group">
+            {label due_date /}
+            {input due_date, class => "form-control w-50"}
+        </div>
+        <div class="form-group">
+            {label var_symbol /}
+            {input var_symbol, class => "form-control w-50"}
+        </div>
+
+        <div class="input-group mb-3 w-50 d-flex">
+            <div class="flex-grow-1">
+                <label for="description">Description</label>
+                <input type="text" name="description" value="{ifset $description}{$description}{/ifset}" class="form-control">
+            </div>
+            <div style="flex: 0 1 100px;">
+                <label for="hours_sum">Hours</label>
+                <input type="number" name="hours_sum" value="{ifset $hours_sum}{$hours_sum}{/ifset}" class="form-control flex-shrink-1">
+            </div>
+            <div style="flex: 0 1 100px;">
+                <label for="charge_per_hour">Charge</label>
+                <input type="number" name="charge_per_hour" value="{ifset $charge_per_hour}{$charge_per_hour}{/ifset}" class="form-control">
+            </div>
+        </div>
+
+        <div class="mt-2">
+            {input submit, class => 'btn btn-primary'}
+        </div>
+    {/form}
+</div>
+
+

@@ -1,0 +1,88 @@
+{block content}
+<h2>Clients</h2>
+
+<button n:if="$presenter->hasPermission('clients_add')" type="button" class="btn btn-primary" data-ares >
+    Add client
+</button>
+
+<div class="row">
+    <div class="col">
+        <table n:if="!empty($clients)" class="table table-responsive table-hover">
+            <tbody n:snippet="clientsList">
+                <tr>
+                    <th>Name</th>
+                    <th>IČO</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                <tr n:foreach="$clients AS $client">
+                    <td>{$client->name}</td>
+                    <td>{$client->ico}</td>
+                    <td>{if $client->email}{$client->email}{else}<input class="ajax-editable" placeholder="Click to fill email..." autocomplete="off" data-client-id="{$client->id}">{/if}</td>
+                    <td>
+                        <a n:if="$presenter->hasPermission('clients_detail')" n:href="Client:detail, id => $client->id" class="btn btn-primary">Detail</a>
+                        <a n:if="$presenter->hasPermission('clients_delete')" n:href="deleteClient!, $client->id" class="btn btn-danger" data-confirm-box>Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p n:if="empty($clients)">
+            No clients found.
+        </p>
+    </div>
+</div>
+
+<script>
+    $('body').on('click', '[data-confirm-box]', function (e){
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = $(this).attr('href');
+            }
+        })
+    })
+
+    $('body').on('click', '[data-ares]', function (e){
+        Swal.fire({
+            title: `Submit new client's IČO`,
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Add',
+            showLoaderOnConfirm: true,
+            preConfirm: (ico) => {
+                return fetch(`/invoisiz/www/ares/?ico=${ ico }`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${ error }`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: `New client was added.`,
+                    text: `${ result.value }`,
+                    confirmButtonText: 'Ok',
+                })
+            }
+        })
+    })
+</script>

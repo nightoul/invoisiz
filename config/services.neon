@@ -1,0 +1,8 @@
+services:
+	- App\Helper\AresHelper
+	- App\Model\Authenticator
+	- App\Model\Client
+	- App\Model\Contractor
+	- App\Model\Invoice
+	- App\Model\Permission
+	- App\Router\RouterFactory::createRouter

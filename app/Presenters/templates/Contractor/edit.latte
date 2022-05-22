@@ -1,0 +1,118 @@
+{block content}
+
+<a n:if="$presenter->hasPermission('contractors_list')" n:href="Contractor:default" class="btn btn-primary">Back</a>
+
+<h3>Edit contractor</h3>
+
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		<button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button">Basic info</button>
+	</li>
+	<li class="nav-item">
+		<button class="nav-link" id="permissions-tab" data-bs-toggle="tab" data-bs-target="#permissions" type="button">Permissions</button>
+	</li>
+</ul>
+<div class="tab-content">
+	<div class="tab-pane fade show active" id="basic">
+		<div>
+			{form contractorForm}
+				<div class="form-group">
+					{label first_name /}
+					{input first_name, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label last_name /}
+					{input last_name, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label ico /}
+					{input ico, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label email /}
+					{input email, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label password /}
+					{input password, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label bank_account /}
+					{input bank_account, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label street /}
+					{input street, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label zip_code /}
+					{input zip_code, class => "form-control w-50"}
+				</div>
+				<div class="form-group">
+					{label town /}
+					{input town, class => "form-control w-50"}
+				</div>
+				<div class="mt-2">
+					{input submit, class => 'btn btn-primary'}
+				</div>
+			{/form}
+		</div>
+	</div>
+	<div class="tab-pane fade" id="permissions">
+		<div n:snippet="setPermissions">
+			{form setPermissionsForm class => 'ajax'}
+				<div>
+					{label permission_presets /}
+					{input permission_presets}
+				</div>
+				<fieldset class="w-50" n:foreach="$form->getGroups() as $formGroup">
+					<legend class="section-header">{$formGroup->getOption('label')}<span class="pull-right section-toggler"><input type="checkbox"></span></legend>
+
+					{foreach $formGroup->getControls() as $perm}
+						{if $perm->options['type'] === 'checkbox'}
+							{do $perm->setHtmlAttribute('title', $perm->getCaption())}
+							<div class="section-item">
+								<span>{$perm->getLabelPart()}</span>
+								<span class="pull-right" >{$perm->getControlPart()}</span>
+							</div>
+						{/if}
+					{/foreach}
+				</fieldset>
+				<div class="mt-2">
+					{input submit, class => 'btn btn-primary'}
+				</div>
+			{/form}
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		let permissionsToPreselect = {$permissionsIds};
+		permissionsToPreselect.forEach(function(permissionId) {
+			$('#frm-setPermissionsForm :checkbox[id="' + permissionId + '"]')
+					.each(function(){
+						$(this).prop('checked', true);
+					})
+		});
+
+		$('[name="permission_presets"]').on('change', function() {
+			$('#frm-setPermissionsForm :checkbox').removeAttr('checked');
+			let permissionPresets = JSON.parse( {$permissionPresets} );
+			let selectedPreset = $(this).find("option:selected").text();
+			permissionPresets[selectedPreset].forEach(function(permissionId) {
+				$('#frm-setPermissionsForm :checkbox[id="' + permissionId + '"]')
+						.each(function(){
+							$(this).prop('checked', true);
+						})
+			});
+		});
+		$('.section-toggler').on('change', function(){
+			if ($(this).find('input[type=checkbox]').is(':checked')) {
+				$(this).closest('fieldset').find('input[type=checkbox]').prop('checked', true);
+			} else {
+				$(this).closest('fieldset').find('input[type=checkbox]').prop('checked', false);
+			}
+		})
+	});
+</script>

@@ -1,0 +1,20 @@
+{block content}
+
+<a n:if="$presenter->hasPermission('clients_list')" n:href="Client:" class="btn btn-primary">Back</a>
+
+<h3>Client detail</h3>
+
+<div>
+    <div>
+      <strong>{$client->name}</strong>
+    </div>
+    <div>
+      {$client->street}<br>{$client->zip_code} {$client->town}
+    </div>
+    <div>
+      IČO: {$client->ico}
+    </div>
+    <div n:snippet="clientEmail">
+      Email: {if $client->email}{$client->email}{else}<input class="ajax-editable" placeholder="Click to fill email..." autocomplete="off" data-client-id="{$client->id}">{/if}
+    </div>
+</div>
